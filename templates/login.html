@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Login - HITAM Library</title>
+    <style>
+        body { font-family:'Segoe UI', sans-serif; background:#f9f9f9; margin:0; padding:0; color:#333; }
+        header { background:#2c3e50; color:white; padding:20px; text-align:center; }
+        header img { height:80px; vertical-align:middle; margin-right:15px; }
+        header h1 { display:inline-block; font-size:26px; margin:0; }
+        h2 { color:#2c3e50; text-align:center; margin:20px 0; }
+        form { max-width:400px; margin:20px auto; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+        input { width:100%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:4px; }
+        input[type=submit] { background:#27ae60; color:white; cursor:pointer; border:none; padding:12px; border-radius:6px; }
+        input[type=submit]:hover { background:#219150; }
+        a { display:block; text-align:center; margin-top:15px; color:#2980b9; text-decoration:none; }
+        a:hover { text-decoration:underline; }
+        .flash { max-width:400px; margin:20px auto; list-style:none; padding:0; }
+        .flash li { padding:10px; margin-bottom:8px; border-radius:6px; color:white; text-align:center; }
+        .flash .success { background:#27ae60; }
+        .flash .error { background:#c0392b; }
+        .flash .warning { background:#f39c12; }
+        footer { background:#2c3e50; color:white; text-align:center; padding:15px; margin-top:40px; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <img src="{{ url_for('static', filename='hitam_logo.png') }}" alt="HITAM Logo">
+        <h1>Hyderabad Institute of Technology and Management</h1>
+    </header>
+
+    <h2>Student Login</h2>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flash">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Login Form -->
+    <form method="POST" action="/login">
+        <label for="roll_number">Roll Number</label>
+        <input type="text" id="roll_number" name="roll_number" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+
+        <input type="submit" value="Login">
+    </form>
+
+    <a href="/">← Back to Role Selection</a>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Hyderabad Institute of Technology and Management | Digital Library System</p>
+    </footer>
+</body>
+</html>
+
+

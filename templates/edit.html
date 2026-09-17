@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Book - HITAM Library</title>
+    <style>
+        body { font-family:'Segoe UI', sans-serif; background:#f9f9f9; margin:0; padding:0; color:#333; }
+        header { background:#2c3e50; color:white; padding:20px; text-align:center; }
+        header img { height:80px; vertical-align:middle; margin-right:15px; }
+        header h1 { display:inline-block; font-size:26px; margin:0; }
+        h2 { color:#2c3e50; text-align:center; margin:20px 0; }
+        form { max-width:600px; margin:20px auto; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+        input, select { width:100%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:4px; }
+        input[type=submit] { background:#27ae60; color:white; cursor:pointer; border:none; padding:12px; border-radius:6px; }
+        input[type=submit]:hover { background:#219150; }
+        .flash { max-width:600px; margin:20px auto; list-style:none; padding:0; }
+        .flash li { padding:10px; margin-bottom:8px; border-radius:6px; color:white; }
+        .flash .success { background:#27ae60; }
+        .flash .error { background:#c0392b; }
+        .flash .warning { background:#f39c12; }
+        footer { background:#2c3e50; color:white; text-align:center; padding:15px; margin-top:40px; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <img src="{{ url_for('static', filename='hitam_logo.png') }}" alt="HITAM Logo">
+        <h1>Hyderabad Institute of Technology and Management</h1>
+    </header>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flash">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <h2>Edit Book</h2>
+
+    <form method="POST" action="/update_book/{{ book['id'] }}">
+        <label>Title:</label>
+        <input type="text" name="title" value="{{ book['title'] }}" required>
+
+        <label>Author:</label>
+        <input type="text" name="author" value="{{ book['author'] }}" required>
+
+        <label>Availability:</label>
+        <select name="available">
+            <option value="Yes" {% if book['available'] == 'Yes' %}selected{% endif %}>Available</option>
+            <option value="No" {% if book['available'] == 'No' %}selected{% endif %}>Not Available</option>
+        </select>
+
+        <label>Location:</label>
+        <input type="text" name="location" value="{{ book['location'] }}" required>
+
+        <label>Subject:</label>
+        <input type="text" name="subject" value="{{ book['subject'] }}" required>
+
+        <label>Quantity:</label>
+        <input type="number" name="quantity" value="{{ book['quantity'] }}" min="0" required>
+
+        <input type="submit" value="Update Book">
+    </form>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Hyderabad Institute of Technology and Management | Digital Library System</p>
+    </footer>
+</body>
+</html>

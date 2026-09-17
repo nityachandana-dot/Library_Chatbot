@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard - HITAM Library</title>
+    <style>
+        body { font-family:'Segoe UI', sans-serif; background:#f9f9f9; margin:0; padding:0; color:#333; }
+        header { background:#2c3e50; color:white; padding:20px; text-align:center; }
+        header img { height:80px; vertical-align:middle; margin-right:15px; }
+        header h1 { display:inline-block; font-size:26px; margin:0; }
+        h2 { color:#2c3e50; text-align:center; margin:20px 0; }
+        table { width:90%; margin:20px auto; border-collapse:collapse; }
+        th, td { border:1px solid #ccc; padding:10px; text-align:center; }
+        th { background:#2c3e50; color:white; }
+        tr:nth-child(even) { background:#f2f2f2; }
+        form { display:inline; }
+        input[type=text], input[type=number], select { padding:8px; margin:5px; border:1px solid #ccc; border-radius:4px; }
+        input[type=submit], button { background:#2980b9; color:white; border:none; padding:8px 15px; border-radius:6px; cursor:pointer; }
+        input[type=submit]:hover, button:hover { background:#1f6699; }
+        .summary { width:90%; margin:20px auto; background:#ecf0f1; padding:15px; border-radius:6px; }
+        footer { background:#2c3e50; color:white; text-align:center; padding:15px; margin-top:40px; }
+        .nav-links { text-align:center; margin:20px; }
+        .nav-links a { margin:0 10px; text-decoration:none; background:#27ae60; color:white; padding:8px 12px; border-radius:6px; }
+        .nav-links a:hover { background:#219150; }
+        .flash { max-width:800px; margin:20px auto; list-style:none; padding:0; }
+        .flash li { padding:10px; margin-bottom:8px; border-radius:6px; color:white; }
+        .flash .success { background:#27ae60; }
+        .flash .error { background:#c0392b; }
+        .flash .warning { background:#f39c12; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <img src="{{ url_for('static', filename='hitam_logo.png') }}" alt="HITAM Logo">
+        <h1>Hyderabad Institute of Technology and Management - Admin Dashboard</h1>
+    </header>
+
+    <!-- Navigation -->
+    <div class="nav-links">
+        <a href="/admin/history">View All Student History</a>
+        <a href="/admin_panel">Refresh Dashboard</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flash">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Summary -->
+    <div class="summary">
+        <h2>Library Summary</h2>
+        <p>Total Books: {{ total_books }}</p>
+        <p>Available Books: {{ available_books }}</p>
+        <p>Not Available Books: {{ not_available_books }}</p>
+        <h3>Books by Subject</h3>
+        <ul>
+            {% for subject, count in subject_counts.items() %}
+                <li>{{ subject }}: {{ count }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Books Table -->
+    <h2>Books Management</h2>
+    <table>
+        <tr>
+            <th>ID</th><th>Title</th><th>Author</th><th>Available</th><th>Location</th><th>Subject</th><th>Quantity</th><th>Actions</th>
+        </tr>
+        {% for book in books %}
+        <tr>
+            <td>{{ book['id'] }}</td>
+            <td>{{ book['title'] }}</td>
+            <td>{{ book['author'] }}</td>
+            <td>{{ book['available'] }}</td>
+            <td>{{ book['location'] }}</td>
+            <td>{{ book['subject'] }}</td>
+            <td>{{ book['quantity'] }}</td>
+            <td>
+                <a href="/edit/{{ book['id'] }}">Edit</a>
+                <form method="POST" action="/remove_copies/{{ book['id'] }}">
+                    <input type="number" name="copies" min="1" placeholder="Copies">
+                    <input type="submit" value="Remove Copies">
+                </form>
+                <form method="POST" action="/delete_book/{{ book['id'] }}">
+                    <input type="submit" value="Delete Book">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Add Book Form -->
+    <h2>Add Book</h2>
+    <form method="POST" action="/add_book">
+        <input type="text" name="title" placeholder="Title" required>
+        <input type="text" name="author" placeholder="Author" required>
+        <select name="available">
+            <option value="Yes">Available</option>
+            <option value="No">Not Available</option>
+        </select>
+        <input type="text" name="location" placeholder="Location" required>
+        <input type="text" name="subject" placeholder="Subject" required>
+        <input type="number" name="quantity" placeholder="Quantity" min="1" required>
+        <input type="submit" value="Add Book">
+    </form>
+
+    <!-- Students Table -->
+    <h2>Students</h2>
+    <table>
+        <tr>
+            <th>ID</th><th>Roll Number</th><th>Name</th><th>Department</th><th>Year</th><th>Email</th>
+        </tr>
+        {% for student in students %}
+        <tr>
+            <td>{{ student['id'] }}</td>
+            <td>{{ student['roll'] }}</td>
+            <td>{{ student['name'] }}</td>
+            <td>{{ student['department'] }}</td>
+            <td>{{ student['year'] }}</td>
+            <td>{{ student['email'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Rules -->
+    <h2>Library Rules</h2>
+    <ul>
+        {% for rule in rules %}
+            <li>{{ rule['rule'] }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Hyderabad Institute of Technology and Management | Digital Library System</p>
+    </footer>
+</body>
+</html>

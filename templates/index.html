@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Library Chatbot - HITAM</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        header img {
+            height: 70px;
+            vertical-align: middle;
+            margin-right: 15px;
+        }
+        header h1 {
+            display: inline-block;
+            font-size: 24px;
+            margin: 0;
+        }
+        .container {
+            max-width: 700px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .chat-box {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 15px;
+            height: 250px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        .chat-message {
+            margin: 8px 0;
+        }
+        .chat-message strong {
+            color: #2980b9;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        button {
+            padding: 10px 15px;
+            background: #2980b9;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #1f6699;
+        }
+        .actions {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .actions form {
+            display: inline-block;
+            margin: 0 10px;
+        }
+        .nav {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .nav a {
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 5px;
+            background: #3498db;
+            color: #fff;
+            border-radius: 4px;
+        }
+        .nav a:hover {
+            background: #2980b9;
+        }
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <img src="{{ url_for('static', filename='hitam_logo.png') }}" alt="HITAM Logo">
+        <h1>Hyderabad Institute of Technology and Management - Library Chatbot</h1>
+    </header>
+
+    <!-- Chat Container -->
+    <div class="container">
+        <h2>Ask about books</h2>
+        <div class="chat-box">
+            {% if response %}
+                <div class="chat-message"><strong>Bot:</strong> {{ response }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Chat Input -->
+        <form method="POST" action="/chat">
+            <input type="text" name="user_input" placeholder="Type book name or author..." required>
+            <button type="submit">Send</button>
+        </form>
+
+        <!-- Borrow / Return / Clear Chat -->
+        <div class="actions">
+            <form action="/chat" method="POST">
+                <input type="hidden" name="user_input" value="__borrow__">
+                <button type="submit">Borrow Book</button>
+            </form>
+            <form action="/chat" method="POST">
+                <input type="hidden" name="user_input" value="__return__">
+                <button type="submit">Return Book</button>
+            </form>
+            <form action="/chat" method="POST">
+                <input type="hidden" name="user_input" value="__clear__">
+                <button type="submit">Clear Chat</button>
+            </form>
+        </div>
+
+        <!-- Student History -->
+        <div class="nav">
+            <a href="/history">My History</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Hyderabad Institute of Technology and Management | Digital Library System</p>
+    </footer>
+</body>
+</html>
+

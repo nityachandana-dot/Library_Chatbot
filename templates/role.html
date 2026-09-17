@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Role Selection - HITAM Library</title>
+    <style>
+        body { font-family:'Segoe UI', sans-serif; background:#f9f9f9; margin:0; padding:0; color:#333; }
+        header { background:#2c3e50; color:white; padding:20px; text-align:center; }
+        header img { height:80px; vertical-align:middle; margin-right:15px; }
+        header h1 { display:inline-block; font-size:26px; margin:0; }
+        h2 { color:#2c3e50; text-align:center; margin:30px 0; }
+        .role-box { max-width:500px; margin:40px auto; background:#fff; padding:30px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1); text-align:center; }
+        .role-box a { display:inline-block; margin:15px; padding:15px 25px; background:#2980b9; color:white; text-decoration:none; border-radius:6px; font-size:16px; }
+        .role-box a:hover { background:#1f6699; }
+        footer { background:#2c3e50; color:white; text-align:center; padding:15px; margin-top:40px; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <img src="{{ url_for('static', filename='hitam_logo.png') }}" alt="HITAM Logo">
+        <h1>Hyderabad Institute of Technology and Management</h1>
+    </header>
+
+    <h2>Select Your Role</h2>
+
+    <div class="role-box">
+        <a href="/login">Student Login</a>
+        <a href="/admin_login">Admin Login</a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Hyderabad Institute of Technology and Management | Digital Library System</p>
+    </footer>
+</body>
+</html>
+

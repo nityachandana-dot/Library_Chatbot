@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Students' Borrow/Return History - HITAM Library</title>
+    <style>
+        body { font-family:'Segoe UI', sans-serif; background:#f9f9f9; margin:0; padding:0; color:#333; }
+        header { background:#2c3e50; color:white; padding:20px; text-align:center; }
+        header img { height:80px; vertical-align:middle; margin-right:15px; }
+        header h1 { display:inline-block; font-size:26px; margin:0; }
+        h2 { color:#2c3e50; text-align:center; margin:20px 0; }
+        table { width:95%; margin:20px auto; border-collapse:collapse; }
+        th, td { border:1px solid #ccc; padding:10px; text-align:center; }
+        th { background:#2c3e50; color:white; }
+        tr:nth-child(even) { background:#f2f2f2; }
+        .nav-links { text-align:center; margin:20px; }
+        .nav-links a { margin:0 10px; text-decoration:none; background:#2980b9; color:white; padding:8px 12px; border-radius:6px; }
+        .nav-links a:hover { background:#1f6699; }
+        .flash { max-width:800px; margin:20px auto; list-style:none; padding:0; }
+        .flash li { padding:10px; margin-bottom:8px; border-radius:6px; color:white; text-align:center; }
+        .flash .success { background:#27ae60; }
+        .flash .error { background:#c0392b; }
+        .flash .warning { background:#f39c12; }
+        footer { background:#2c3e50; color:white; text-align:center; padding:15px; margin-top:40px; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <img src="{{ url_for('static', filename='hitam_logo.png') }}" alt="HITAM Logo">
+        <h1>Hyderabad Institute of Technology and Management - Admin History</h1>
+    </header>
+
+    <!-- Navigation -->
+    <div class="nav-links">
+        <a href="/admin_panel">Back to Dashboard</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flash">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <h2>All Students' Borrow/Return History</h2>
+
+    {% if history %}
+    <table>
+        <tr>
+            <th>Student Name</th>
+            <th>Roll Number</th>
+            <th>Book Title</th>
+            <th>Action</th>
+            <th>Date & Time</th>
+        </tr>
+        {% for record in history %}
+        <tr>
+            <td>{{ record['student_name'] }}</td>
+            <td>{{ record['roll'] }}</td>
+            <td>{{ record['title'] }}</td>
+            <td>{{ record['action']|capitalize }}</td>
+            <td>{{ record['timestamp'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p style="text-align:center; color:#c0392b;">No transactions found.</p>
+    {% endif %}
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Hyderabad Institute of Technology and Management | Digital Library System</p>
+    </footer>
+</body>
+</html>
+
